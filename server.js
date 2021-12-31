@@ -1,4 +1,4 @@
-require("dotenv").config({ path: "./env/KEY.env" })
+require("dotenv").config()
 const express = require("express")
 const mongoose = require("mongoose")
 const Article = require("./models/article") //need to require every file in (if) use
@@ -9,6 +9,8 @@ const app = express()
 
 const db_name = process.env.DB_NAME
 const db_psw = process.env.DB_PSW
+const HOST = "127.0.0.1"
+const PORT = 7001
 
 const uri = `mongodb+srv://${db_name}:${db_psw}@cluster0.vpjd4.mongodb.net/blog?retryWrites=true&w=majority`
 
@@ -34,4 +36,6 @@ app.get("/", async (req, res) => {
 
 app.use("/articles", articleRouter)
 
-app.listen(5000)
+app.listen(PORT, HOST, () =>
+  console.log(`Server started @ ${HOST} port ${PORT}`)
+)
