@@ -31,12 +31,12 @@
           <a href="articles/edit/<%= article.id %>" class="btn btn-info"
             >Edit</a
           >
+          <!-- use FORM because of DELETE method, otherwise google bot when go througt the site will click on delete!!!! -->
           <form
             action="/articles/<%= article.id %>?_method=DELETE"
             method="POST"
             class="d-inline"
           >
-            <!-- use FORM because of DELETE method, otherwise google bot when go througt the site will click on delete!!!! -->
             <button type="submit" class="btn btn-danger">Delete</button>
           </form>
         </div>

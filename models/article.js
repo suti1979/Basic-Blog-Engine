@@ -1,10 +1,11 @@
 const mongoose = require("mongoose")
 const marked = require("marked")
 const slugify = require("slugify") //ID good looking from title
+
+//DOM PURIFY for HTML but no malware JS :P escape all HTML chars
 const createDomPurify = require("dompurify")
 const { JSDOM } = require("jsdom")
 const dompurify = createDomPurify(new JSDOM().window)
-//DOM PURIFY for HTML but no malware JS :P escape all HTML chars
 
 const articleSchema = new mongoose.Schema({
   title: {
@@ -42,6 +43,7 @@ articleSchema.pre("validate", function (next) {
     this.sanitizedHtml = dompurify.sanitize(marked(this.markdown))
   }
 
+  // this NEXT() os for this pre validation
   next()
 })
 
