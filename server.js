@@ -45,9 +45,8 @@ app.use(passport.session())
 
 app.get("/", checkAuthenticated, async (req, res) => {
   const articles = await Article.find().sort({ createdAt: "desc" })
-  const username = await req.user.username
-  console.log(username)
-  res.render("articles/index", { articles: articles, user: req.user.username })
+  const user = await req.user
+  res.render("articles/index", { articles: articles, user: user.username })
 })
 
 app.get("/register", (req, res) => {
@@ -103,3 +102,16 @@ function checkNotAuthenticated(req, res, next) {
 app.listen(PORT, HOST, () =>
   console.log(`Server started @ ${HOST} port ${PORT}`)
 )
+
+/*
+TODO:
+refactor
+logout
+not to log in in session
+shop default page without login
+register check name, email
+add user to article
+show EDIT, DELETE only for the arthur
+some style would be nice :P
+
+*/

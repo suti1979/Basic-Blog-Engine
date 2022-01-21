@@ -13,8 +13,8 @@ function inicializePassport(passport) {
           return done(null, false, { message: "No user with that name" })
         }
 
-        bcrypt.compare(password, user.password, (err, isMatch) => {
-          if (err) throw err
+        bcrypt.compare(password, user.password, (e, isMatch) => {
+          if (e) throw e
 
           if (isMatch) {
             return done(null, user)
