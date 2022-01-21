@@ -26,8 +26,15 @@ function inicializePassport(passport) {
     })
   )
 
-  passport.serializeUser((user, done) => done(null, user._id))
-  passport.deserializeUser((id, done) => done(null, User.findById(id)))
+  passport.serializeUser((user, done) => {
+    return done(null, user.id)
+  })
+  passport.deserializeUser((id, done) => {
+    return done(
+      null,
+      User.findById(id).then((res) => res)
+    )
+  })
 }
 
 module.exports = inicializePassport

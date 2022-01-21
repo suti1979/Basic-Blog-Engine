@@ -43,10 +43,11 @@ app.use(
 app.use(passport.initialize())
 app.use(passport.session())
 
-app.get("/", checkAuthenticated, async (req, res, next) => {
+app.get("/", checkAuthenticated, async (req, res) => {
   const articles = await Article.find().sort({ createdAt: "desc" })
-  console.log(req.user)
-  res.render("articles/index", { articles: articles, user: req.user })
+  const username = await req.user.username
+  console.log(username)
+  res.render("articles/index", { articles: articles, user: req.user.username })
 })
 
 app.get("/register", (req, res) => {
@@ -64,7 +65,7 @@ app.post("/register", async (req, res) => {
     user.username = req.body.username
     user.email = req.body.email
     user.password = hashedPassword
-    user = user.save()
+    user.save()
 
     res.redirect("/login")
   } catch {
