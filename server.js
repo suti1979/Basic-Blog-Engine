@@ -30,8 +30,8 @@ const initializePassport = require("./passport-config")
 initializePassport(passport)
 
 app.set("view engine", "ejs")
-app.use(express.urlencoded({ extended: false })) // urlencoder needs to go before router! 
-app.use(methodOverride("_method")) 
+app.use(express.urlencoded({ extended: false })) // urlencoder needs to go before router!
+app.use(methodOverride("_method"))
 app.use(flash())
 app.use(
   session({
@@ -43,9 +43,10 @@ app.use(
 app.use(passport.initialize())
 app.use(passport.session())
 
-app.get("/", async (req, res) => {
+app.get("/", checkAuthenticated, async (req, res, next) => {
   const articles = await Article.find().sort({ createdAt: "desc" })
-  res.render("articles/index", { articles: articles, username: req })
+  console.log(req.user)
+  res.render("articles/index", { articles: articles, user: req.user })
 })
 
 app.get("/register", (req, res) => {
@@ -59,12 +60,12 @@ app.get("/login", (req, res) => {
 app.post("/register", async (req, res) => {
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 10)
-      let user = new User();
-      user.username = req.body.username
-      user.email = req.body.email
-      user.password = hashedPassword
-      user = user.save();
-  
+    let user = new User()
+    user.username = req.body.username
+    user.email = req.body.email
+    user.password = hashedPassword
+    user = user.save()
+
     res.redirect("/login")
   } catch {
     res.redirect("/register")
@@ -73,13 +74,30 @@ app.post("/register", async (req, res) => {
 
 app.post(
   "/login",
-  passport.authenticate("local", { failureRedirect: "/login", failureFlash: true }),
-  function (req, res) {
-    res.redirect("/")
-  }
+  checkNotAuthenticated,
+  passport.authenticate("local", {
+    successRedirect: "/",
+    failureRedirect: "/login",
+    failureFlash: true,
+  })
 )
 
 app.use("/articles", articleRouter) // in "articleRouter" every rout will be "/articles" + something
+
+function checkAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next()
+  }
+
+  res.redirect("/login")
+}
+
+function checkNotAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    return res.redirect("/")
+  }
+  next()
+}
 
 app.listen(PORT, HOST, () =>
   console.log(`Server started @ ${HOST} port ${PORT}`)
