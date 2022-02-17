@@ -44,6 +44,9 @@ router.delete("/:id", async (req, res) => {
 function saveArticleAndRedirect(path) {
   return async (req, res) => {
     let article = req.article
+    const user = await req.user
+    //console.log(user._id)
+    article.user_id = user._id
     article.title = req.body.title
     article.description = req.body.description
     article.markdown = req.body.markdown

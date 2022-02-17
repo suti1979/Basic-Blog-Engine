@@ -48,8 +48,8 @@ app.use(passport.session())
 app.get("/", async (req, res) => {
   const articles = await Article.find().sort({ createdAt: "desc" })
   const user = await req.user
-  if (user != null) res.render("articles/index", { articles: articles, user: user.username })
-  else res.render("articles/index", { articles: articles, user: null })
+  if (user != null) res.render("articles/index", { articles: articles, user: user.username, user_id: user._id })
+  else res.render("articles/index", { articles: articles, user: null, user_id: null })
 })
 
 app.get("/register", checkAuthenticated, (req, res) => {
@@ -112,11 +112,9 @@ app.listen(PORT, HOST, () => console.log(`Server started @ ${HOST} port ${PORT}`
 /*
 TODO:
 refactor
-
-add user to article
-show EDIT, DELETE only for the arthur
 register check name, email ALREADY exist!
-
+check psw length, name etc.
+ask on delete
 some style would be nice :P
 
 */

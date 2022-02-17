@@ -39,11 +39,15 @@
           </div>
           <div class="card-text mb-2"><%= article.description %></div>
           <a href="articles/<%= article.slug %>" class="btn btn-primary">Read More</a>
+
+          <% if (user_id != null && user_id == article.user_id) { %>
           <a href="articles/edit/<%= article.id %>" class="btn btn-info">Edit</a>
           <!-- use FORM because of DELETE method, otherwise google bot when go througt the site will click on delete!!!! -->
           <form action="/articles/<%= article.id %>?_method=DELETE" method="POST" class="d-inline">
             <button type="submit" class="btn btn-danger">Delete</button>
           </form>
+           <% } %>
+
         </div>
       </div>
       <% }) %>

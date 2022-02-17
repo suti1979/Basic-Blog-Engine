@@ -19,9 +19,6 @@
         <%= article.createdAt.toLocaleDateString() %>
       </div>
       <a href="/" class="btn btn-secondary">Back to Articles</a>
-      <a href="/articles/edit/<%= article.id %>" class="btn btn-info">Edit</a>
-
-      <!-- < % - EJS for HTML show  -->
       <div><%- article.sanitizedHtml %></div>
     </div>
   </body>
