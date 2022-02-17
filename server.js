@@ -5,10 +5,11 @@ const HOST = "127.0.0.1"
 const PORT = 7001
 
 const express = require("express")
+const app = express()
 const mongoose = require("mongoose")
 const articleRouter = require("./routes/articles")
 const methodOverride = require("method-override") // for PUT, DELETE request
-const app = express()
+
 const bcrypt = require("bcrypt")
 const passport = require("passport")
 const flash = require("express-flash")
@@ -16,6 +17,7 @@ const session = require("express-session")
 
 const Article = require("./models/article")
 const User = require("./models/users")
+
 const URI = `mongodb+srv://${DB_NAME}:${DB_PSW}@cluster0.vpjd4.mongodb.net/blog?retryWrites=true&w=majority`
 
 mongoose.set("useNewUrlParser", true)
@@ -43,24 +45,18 @@ app.use(
 app.use(passport.initialize())
 app.use(passport.session())
 
-app.get(
-  "/",
-  /*checkAuthenticated,*/ async (req, res) => {
-    const articles = await Article.find().sort({ createdAt: "desc" })
-    const user = await req.user
-    if (user != null)
-      res.render("articles/index", { articles: articles, user: user.username })
-    else
-      res.render("articles/index", { articles: articles, user: null })
-    
-    }
-)
+app.get("/", async (req, res) => {
+  const articles = await Article.find().sort({ createdAt: "desc" })
+  const user = await req.user
+  if (user != null) res.render("articles/index", { articles: articles, user: user.username })
+  else res.render("articles/index", { articles: articles, user: null })
+})
 
-app.get("/register", (req, res) => {
+app.get("/register", checkAuthenticated, (req, res) => {
   res.render("register")
 })
 
-app.get("/login", (req, res) => {
+app.get("/login", checkAuthenticated, (req, res) => {
   res.render("login")
 })
 
@@ -97,7 +93,7 @@ app.delete("/logout", (req, res) => {
 app.use("/articles", articleRouter) // in "articleRouter" every rout will be "/articles" + something
 
 function checkAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) {
+  if (!req.isAuthenticated()) {
     return next()
   }
 
@@ -111,18 +107,16 @@ function checkNotAuthenticated(req, res, next) {
   next()
 }
 
-app.listen(PORT, HOST, () =>
-  console.log(`Server started @ ${HOST} port ${PORT}`)
-)
+app.listen(PORT, HOST, () => console.log(`Server started @ ${HOST} port ${PORT}`))
 
 /*
 TODO:
 refactor
-not to log in in session
-shop default page without login
-register check name, email ALREADY exist!
+
 add user to article
 show EDIT, DELETE only for the arthur
+register check name, email ALREADY exist!
+
 some style would be nice :P
 
 */
