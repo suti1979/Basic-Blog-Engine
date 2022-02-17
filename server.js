@@ -43,11 +43,18 @@ app.use(
 app.use(passport.initialize())
 app.use(passport.session())
 
-app.get("/", checkAuthenticated, async (req, res) => {
-  const articles = await Article.find().sort({ createdAt: "desc" })
-  const user = await req.user
-  res.render("articles/index", { articles: articles, user: user.username })
-})
+app.get(
+  "/",
+  /*checkAuthenticated,*/ async (req, res) => {
+    const articles = await Article.find().sort({ createdAt: "desc" })
+    const user = await req.user
+    if (user != null)
+      res.render("articles/index", { articles: articles, user: user.username })
+    else
+      res.render("articles/index", { articles: articles, user: null })
+    
+    }
+)
 
 app.get("/register", (req, res) => {
   res.render("register")
@@ -82,6 +89,11 @@ app.post(
   })
 )
 
+app.delete("/logout", (req, res) => {
+  req.logOut() //session function
+  res.redirect("/")
+})
+
 app.use("/articles", articleRouter) // in "articleRouter" every rout will be "/articles" + something
 
 function checkAuthenticated(req, res, next) {
@@ -89,7 +101,7 @@ function checkAuthenticated(req, res, next) {
     return next()
   }
 
-  res.redirect("/login")
+  res.redirect("/") // ??? login
 }
 
 function checkNotAuthenticated(req, res, next) {
@@ -106,10 +118,9 @@ app.listen(PORT, HOST, () =>
 /*
 TODO:
 refactor
-logout
 not to log in in session
 shop default page without login
-register check name, email
+register check name, email ALREADY exist!
 add user to article
 show EDIT, DELETE only for the arthur
 some style would be nice :P

@@ -14,13 +14,22 @@
   </head>
   <body>
     <div class="container">
-      <h1>Hi <%= user %></h1>
-
+      <% if (user != null) { %>
+        <h1>Hi <%= user %></h1>
+      <%} %>
+      
       <h1 class="mb-4">Blog Articles</h1>
       <a href="/articles/new" class="btn btn-success">New Article</a>
+      <% if (user == null) { %>
       <a href="/login" class="btn btn-info">Login</a>
       <a href="/register" class="btn btn-info">Register</a>
-
+      <%} else { %>
+      
+      <form action="/logout?_method=DELETE" method="POST">
+        <button type="submit">Log Out</button>
+      </form>
+      
+      <%} %> 
       <% articles.forEach(article => { %>
       <div class="card mt-4">
         <div class="card-body">
@@ -29,18 +38,10 @@
             <%= article.createdAt.toLocaleDateString() %>
           </div>
           <div class="card-text mb-2"><%= article.description %></div>
-          <a href="articles/<%= article.slug %>" class="btn btn-primary"
-            >Read More</a
-          >
-          <a href="articles/edit/<%= article.id %>" class="btn btn-info"
-            >Edit</a
-          >
+          <a href="articles/<%= article.slug %>" class="btn btn-primary">Read More</a>
+          <a href="articles/edit/<%= article.id %>" class="btn btn-info">Edit</a>
           <!-- use FORM because of DELETE method, otherwise google bot when go througt the site will click on delete!!!! -->
-          <form
-            action="/articles/<%= article.id %>?_method=DELETE"
-            method="POST"
-            class="d-inline"
-          >
+          <form action="/articles/<%= article.id %>?_method=DELETE" method="POST" class="d-inline">
             <button type="submit" class="btn btn-danger">Delete</button>
           </form>
         </div>
