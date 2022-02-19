@@ -13,24 +13,26 @@ router.get("/edit/:id", checkAuthenticated, async (req, res) => {
 })
 
 router.get("/:slug", async (req, res) => {
-  const article = await Article.findOne({ slug: req.params.slug })
-  if (article == null) res.redirect("/") //if there is no ID go back to main page
-  res.render("articles/show", { article: article })
+  await Article.findOne({ slug: req.params.slug })
+    .then((article) => {
+      if (article == null) res.redirect("/") //if there is no ID go back to main page
+      res.render("articles/show", { article: article })
+    })
+    .catch((e) => {
+      res.send(e)
+    })
 })
 
-router.post(
-  "/",
+router.post("/",
   checkAuthenticated,
   async (req, res, next) => {
-    //ASYNC because of .save() + try catch!!
     req.article = new Article()
     next()
   },
   saveArticleAndRedirect("new")
 )
 
-router.put(
-  "/:id",
+router.put("/:id",
   checkAuthenticated,
   async (req, res, next) => {
     req.article = await Article.findById(req.params.id)

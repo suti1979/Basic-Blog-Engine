@@ -1,24 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-      crossorigin="anonymous"
-    />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Blog</title>
-  </head>
+<%- include('_header') %>
   <body>
     <div class="container">
       <% if (user != null) { %>
-        <h1>Hi <%= user %></h1>
+        <div>Logged in as: <%= user %></div>
       <%} %>
       
-      <h1 class="mb-4">Blog Articles</h1>
+      <h1 class="mb-4">Articles</h1>
      
       <% if (user == null) { %>
       <a href="/login" class="btn btn-info">Login</a>
@@ -42,10 +30,11 @@
 
           <% if (user_id != null && user_id == article.user_id) { %>
           <a href="articles/edit/<%= article.id %>" class="btn btn-info">Edit</a>
-          <!-- use FORM because of DELETE method, otherwise google bot when go througt the site will click on delete!!!! -->
-          <form action="/articles/<%= article.id %>?_method=DELETE" method="POST" class="d-inline">
+          <button class="btn btn-danger" value="<%= article.id %>" id="delete">Delete article</button>
+          <!-- use FORM because of DELETE method, otherwise google bot when go througt the site will click on delete!!!! 
+          <form action="/articles/<%= // article.id %>?_method=DELETE" method="POST" class="d-inline">
             <button type="submit" class="btn btn-danger">Delete</button>
-          </form>
+          </form> -->
            <% } %>
 
         </div>

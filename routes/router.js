@@ -4,15 +4,19 @@ const Article = require("./../models/article")
 const User = require("./../models/users")
 const bcrypt = require("bcrypt")
 const passport = require("passport")
-
 const { checkNotAuthenticated, checkNotLoggedIn } = require("../config/auth")
 
 router.get("/", async (req, res) => {
-  const articles = await Article.find().sort({ createdAt: "desc" })
+
   const user = await req.user
-  if (user != null)
-    res.render("articles/index", { articles: articles, user: user.username, user_id: user._id })
-  else res.render("articles/index", { articles: articles, user: null, user_id: null })
+
+  await Article.find().sort({ createdAt: "desc" })
+    .then((articles) => {
+      if (user != null)
+        res.render("articles/index", { articles: articles, user: user.username, user_id: user._id })
+      else res.render("articles/index", { articles: articles, user: null, user_id: null })
+    })
+    .catch((e) => console.error(e))
 })
 
 router.get("/register", checkNotLoggedIn, (req, res) => {
