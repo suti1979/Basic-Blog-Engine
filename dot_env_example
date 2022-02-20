@@ -1,0 +1,4 @@
+DB_USER = ""
+DB_PSW = ""
+DB_NAME = ""
+SESSION_SECRET = ""

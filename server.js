@@ -7,7 +7,8 @@ mongoConn()
 const mainRouter = require("./routes/router")
 const articleRouter = require("./routes/articles")
 
-const methodOverride = require("method-override") // for PUT, DELETE request
+// for PUT, DELETE request
+const methodOverride = require("method-override") 
 const passport = require("passport")
 const flash = require("express-flash")
 const session = require("express-session")
@@ -15,9 +16,11 @@ const session = require("express-session")
 const initializePassport = require("./config/passport-config")
 initializePassport(passport)
 
+const path = require("path")
+app.use(express.static(path.join(__dirname, "public")))
 app.set("view engine", "ejs")
-app.use(express.static("public"))
-app.use(express.urlencoded({ extended: false })) // urlencoder needs to go before router!
+// urlencoder needs to go before router
+app.use(express.urlencoded({ extended: false })) 
 app.use(methodOverride("_method"))
 app.use(flash())
 app.use(
@@ -35,4 +38,5 @@ app.use("/articles", articleRouter)
 
 const HOST = "127.0.0.1"
 const PORT = 7001
-app.listen(PORT, HOST, () => console.log(`Server started @ http://${HOST}:${PORT}`))
+app.listen(PORT, HOST, () => 
+  console.log(`Server started @ http://${HOST}:${PORT}`))

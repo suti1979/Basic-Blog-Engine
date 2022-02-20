@@ -1,0 +1,10 @@
+@import url("https://fonts.googleapis.com/css?family=Rubik");
+
+body {
+    background-color: teal;
+    font-family: 'Rubik', 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+h1, h6 {
+    color: aliceblue;
+}

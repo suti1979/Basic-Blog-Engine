@@ -1,10 +1,11 @@
 require("dotenv").config()
 const DB_NAME = process.env.DB_NAME
+const DB_USER = process.env.DB_USER
 const DB_PSW = process.env.DB_PSW
 const mongoose = require("mongoose")
 
 function mongoConn() {
-    const URI = `mongodb+srv://${DB_NAME}:${DB_PSW}@cluster0.vpjd4.mongodb.net/blog?retryWrites=true&w=majority`
+    const URI = `mongodb+srv://${DB_USER}:${DB_PSW}@cluster0.vpjd4.mongodb.net/${DB_NAME}?retryWrites=true&w=majority`
 
     mongoose.set("useNewUrlParser", true)
     mongoose.set("useFindAndModify", false)

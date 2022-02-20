@@ -1,9 +1,18 @@
 <!DOCTYPE html>
-  <%- include('_header') %>
+  <%- include('../_header') %>
   <body>
     <div class="container">
       <% if (user != null) { %>
-        <div>Logged in: <%= user %></div>
+        <div class="position-relative">
+          <div class="position-absolute top-0 start-0">
+            <h6>Logged in: <strong><%= user %></strong></h6>
+          </div>
+          <div class="position-relative top-0 end-0">
+            <form action="/logout?_method=DELETE" method="POST">
+              <button class="btn btn-info btn-sm" type="submit">Log Out</button>
+            </form>
+          </div>
+        </div>
       <%} %>
       
       <h1 class="mb-4">Articles</h1>
@@ -12,10 +21,7 @@
       <a href="/login" class="btn btn-info">Login</a>
       <a href="/register" class="btn btn-info">Register</a>
       <%} else { %>
-       <a href="/articles/new" class="btn btn-success">New Article</a>
-      <form action="/logout?_method=DELETE" method="POST">
-        <button type="submit">Log Out</button>
-      </form>
+       <a href="/articles/new" class="btn btn-info">New Article</a>
       
       <%} %> 
       <% articles.forEach(article => { %>
@@ -26,7 +32,7 @@
             <%= article.createdAt.toLocaleDateString() %>
           </div>
           <div class="card-text mb-2"><%= article.description %></div>
-          <a href="articles/<%= article.slug %>" class="btn btn-primary">Read More</a>
+          <a href="articles/<%= article.slug %>" class="btn btn-info">Read More</a>
 
           <% if (user_id != null && user_id == article.user_id) { %>
           <a href="articles/edit/<%= article.id %>" class="btn btn-info">Edit</a>
@@ -41,6 +47,6 @@
       </div>
       <% }) %>
     </div>
-     <script src="./sc_delete.js" defer></script>
+     <script src="/sc_delete.js" defer></script>
   </body>
 </html>
