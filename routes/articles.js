@@ -2,6 +2,7 @@ const express = require("express")
 const Article = require("./../models/article")
 const router = express.Router()
 const { checkAuthenticated } = require("../config/auth")
+let article = null
 
 router.get("/new", checkAuthenticated, (req, res) => {
   res.render("articles/new", { article: new Article() })

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<%- include('_header') %>
+  <%- include('_header') %>
   <body>
     <div class="container">
       <% if (user != null) { %>
-        <div>Logged in as: <%= user %></div>
+        <div>Logged in: <%= user %></div>
       <%} %>
       
       <h1 class="mb-4">Articles</h1>
@@ -41,5 +41,6 @@
       </div>
       <% }) %>
     </div>
+     <script src="./sc_delete.js" defer></script>
   </body>
 </html>
