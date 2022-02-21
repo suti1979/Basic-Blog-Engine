@@ -2,12 +2,17 @@
     <%- include('../_header') %>
 <body>
     <div class="container">
-      <h1 class="mb-1"><%= article.title %></h1>
-      <div class="text-muted mb-2">
-        <%= article.createdAt.toLocaleDateString() %>
+      <div class="row bg-light rounded">
+        <div class="sticky-top bg-light">  
+           <h2 class="mb-1"><%= article.title %></h2>
+              <div class="text-muted mb-2">
+                <%= article.createdAt.toLocaleDateString() %>
+              </div>
+            <a href="/" class="btn btn-info mb-3 col-2 btn-sm">Back to Articles</a>
+        </div>
+      <hr/>
+        <div><%- article.sanitizedHtml %></div>
       </div>
-      <a href="/" class="btn btn-secondary">Back to Articles</a>
-      <div><%- article.sanitizedHtml %></div>
     </div>
   </body>
 </html>

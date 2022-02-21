@@ -2,29 +2,31 @@
   <%- include('../_header') %>
   <body>
     <div class="container">
-      <% if (user != null) { %>
-        <div class="position-relative">
-          <div class="position-absolute top-0 start-0">
-            <h6>Logged in: <strong><%= user %></strong></h6>
-          </div>
-          <div class="position-relative top-0 end-0">
-            <form action="/logout?_method=DELETE" method="POST">
-              <button class="btn btn-info btn-sm" type="submit">Log Out</button>
-            </form>
-          </div>
+    <% if (user != null) { %>
+      <div class="row align-middle">
+        <div class="col">
+          <h6>Logged in: <strong><%= user %></strong></h6>
         </div>
-      <%} %>
+        <div class="col">
+          <form action="/logout?_method=DELETE" method="POST">
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <button class="btn btn-info btn-sm float-right" type="submit">Log Out</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    <%} %>
       
-      <h1 class="mb-4">Articles</h1>
+    <h1 class="mb-4">Articles</h1>
      
       <% if (user == null) { %>
-      <a href="/login" class="btn btn-info">Login</a>
-      <a href="/register" class="btn btn-info">Register</a>
+      <a href="/login" class="btn btn-info col-2 btn-sm">Login</a>
+      <a href="/register" class="btn btn-info col-2 btn-sm">Register</a>
       <%} else { %>
-       <a href="/articles/new" class="btn btn-info">New Article</a>
-      
+       <a href="/articles/new" class="btn btn-info btn-sm">Write article</a>     
       <%} %> 
       <% articles.forEach(article => { %>
+        
       <div class="card mt-4">
         <div class="card-body">
           <h4 class="card-title"><%= article.title %></h4>
@@ -32,11 +34,11 @@
             <%= article.createdAt.toLocaleDateString() %>
           </div>
           <div class="card-text mb-2"><%= article.description %></div>
-          <a href="articles/<%= article.slug %>" class="btn btn-info">Read More</a>
+          <a href="articles/<%= article.slug %>" class="btn btn-info btn-sm">Read More</a>
 
           <% if (user_id != null && user_id == article.user_id) { %>
-          <a href="articles/edit/<%= article.id %>" class="btn btn-info">Edit</a>
-          <button class="btn btn-danger" value="<%= article.id %>" id="delete">Delete article</button>
+          <a href="articles/edit/<%= article.id %>" class="btn btn-warning btn-sm">Edit</a>
+          <button class="btn btn-danger btn-sm" value="<%= article.id %>" id="delete">Delete article</button>
           <!-- use FORM because of DELETE method, otherwise google bot when go througt the site will click on delete!!!! 
           <form action="/articles/<%= // article.id %>?_method=DELETE" method="POST" class="d-inline">
             <button type="submit" class="btn btn-danger">Delete</button>
