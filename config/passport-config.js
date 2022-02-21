@@ -10,7 +10,7 @@ function inicializePassport(passport) {
           return done(err)
         }
         if (!user) {
-          return done(null, false, { message: "No user with that name" })
+          return done(null, false, { message: "No user with that name..." })
         }
 
         bcrypt.compare(password, user.password, (e, isMatch) => {
@@ -19,7 +19,7 @@ function inicializePassport(passport) {
           if (isMatch) {
             return done(null, user)
           } else {
-            return done(null, false, { message: "pass incorrect" })
+            return done(null, false, { message: "Password incorrect..." })
           }
         })
       })

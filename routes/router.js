@@ -20,7 +20,7 @@ router.get("/", async (req, res) => {
 })
 
 router.get("/register", checkNotLoggedIn, (req, res) => {
-  res.render("register")
+  res.render("register", {msg_error: null})
 })
 
 router.get("/login", checkNotLoggedIn, (req, res) => {
@@ -28,13 +28,25 @@ router.get("/login", checkNotLoggedIn, (req, res) => {
 })
 
 router.post("/register", async (req, res) => {
+  const { username, email, password } = req.body
+  
+  if (username.length < 8)
+    return res.render("register", { msg_error: "Username must be minimum 8 characters" })
+
+  // User.findOne({email : email}).exec((err,user)=>{
+  //       console.log(user);   
+  //       if(user) {
+  //           errors.push({msg: 'email already registered'});
+  //           res.render('register',{errors,name,email,password,password2})  
+  //          }
+
   try {
-    const hashedPassword = await bcrypt.hash(req.body.password, 10)
-    let user = new User()
-    user.username = req.body.username
-    user.email = req.body.email
-    user.password = hashedPassword
-    user.save()
+    // const hashedPassword = await bcrypt.hash(password, 10)
+    // let user = new User()
+    // user.username = username
+    // user.email = email
+    // user.password = hashedPassword
+    // user.save()
 
     res.redirect("/login")
   } catch {

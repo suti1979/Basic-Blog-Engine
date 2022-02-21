@@ -3,6 +3,13 @@
   <body>
     <div class="container">
       <h1>Register</h1>
+      <% if (msg_error != null) { %>
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          <%= msg_error %> 
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      <% } %>
+
       <form action="/register" method="POST">
         <div class="form-group">
           <label for="name" class="text-light">Name</label>
