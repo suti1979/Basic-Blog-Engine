@@ -8,5 +8,5 @@
 ### SETUP
 
 - `npm i`
-- fill up `.env` file with your database
+- fill up `.env` file with your database access
 

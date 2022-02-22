@@ -3,16 +3,18 @@
   <body>
     <div class="container">
       <h1>Register</h1>
-      <% if (msg_error != null) { %>
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-          <%= msg_error %> 
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
+      <% if (typeof msg_errors!= 'undefined') { %>
+        <% msg_errors.forEach(err => { %> 
+          <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <%= err.msg_error %> 
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        <% }) %>
       <% } %>
 
       <form action="/register" method="POST">
         <div class="form-group">
-          <label for="name" class="text-light">Name</label>
+          <label for="name" class="text-light">Name <small>(min. 6 chars)</small></label>        
           <input class="form-control" type="text" id="username" name="username" required />
         </div>
         <div class="form-group">
@@ -20,7 +22,7 @@
           <input class="form-control" type="email" id="email" name="email" required />
         </div>
         <div class="form-group">
-          <label for="password" class="text-light">Password</label>
+          <label for="password" class="text-light">Password <small>(min. 8 chars, min one small, one big letter, one numeric char)</small></label>
           <input class="form-control" type="password" id="password" name="password" required />
         </div>
         <button class="btn btn-info mt-3 col-2 btn-sm" type="submit">Register</button>
