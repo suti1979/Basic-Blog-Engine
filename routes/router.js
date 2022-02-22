@@ -32,14 +32,14 @@ router.get("/login", checkNotLoggedIn, (req, res) => {
 })
 
 router.post("/register", regCheck, async (req, res) => {
- 
+  const { username, email, password } = req.body
   try {
-    // const hashedPassword = await bcrypt.hash(password, 10)
-    // let user = new User()
-    // user.username = username
-    // user.email = email
-    // user.password = hashedPassword
-    // user.save()
+    const hashedPassword = await bcrypt.hash(password, 10)
+    let user = new User()
+    user.username = username
+    user.email = email
+    user.password = hashedPassword
+    user.save()
 
     res.redirect("/login")
   } catch {
