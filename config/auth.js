@@ -20,7 +20,7 @@ function checkNotAuthenticated(req, res, next) {
 }
 
 module.exports = {
-    checkAuthenticated : checkAuthenticated,
-    checkNotAuthenticated : checkNotAuthenticated,
-    checkNotLoggedIn : checkNotLoggedIn
+    checkAuthenticated,
+    checkNotAuthenticated,
+    checkNotLoggedIn
 }

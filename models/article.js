@@ -1,5 +1,5 @@
 const mongoose = require("mongoose")
-const marked = require("marked")
+const {marked} = require("marked")
 const slugify = require("slugify") //ID good looking from title
 
 //DOM PURIFY for HTML but no malware JS :P escape all HTML chars
